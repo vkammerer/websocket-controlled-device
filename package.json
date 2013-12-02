@@ -1,0 +1,14 @@
+{
+  "name": "vincent",
+  "version": "0.0.0",
+  "dependencies": {
+    "socket.io": "~0.9.0",
+    "onoff": "latest",
+    "underscore": "latest"
+  },
+  "devDependencies": {
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}
