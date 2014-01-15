@@ -19,9 +19,10 @@ if (config.client) {
   	'resource' : 'usersocket',
 		'query':'rpi=' + config.client.id
 	});
-	socket.on('connect', function (data){
-		deviceController.socketEvents(socket, socket);
+	deviceController.socketEvents(socket, socket);
+/*	socket.on('connect', function (data){
 	})
+*/
 }
 else if (config.server) {
 	var server = http.createServer(function (req, res) {
