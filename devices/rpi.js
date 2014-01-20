@@ -12,8 +12,6 @@ var pilightSettings = {
 
 pilight.serviceStart();
 
-console.log('Current pin for "gpio-sender" is: ' + pilightSettings['gpio-sender']);
-
 exports.socketEvents = function(socket, socketAudience){
 	thisSocketAudience = socketAudience;
 	socket.on('connect', onConnect);
@@ -75,17 +73,12 @@ function rfcdOutput(data){
 			+ ' to: ' + data.rfcd.gpio.pin.toString());
 		pilight.setSender(data.rfcd.gpio.pin).then(function(){			
 			pilightSettings['gpio-sender'] = data.rfcd.gpio.pin.toString();
-			console.log('Current pin for "gpio-sender" is: ' + pilightSettings['gpio-sender']);
-			console.log('Restarting pilight service');
 			pilight.serviceRestart().then(function(){
-				console.log('Pilight service restarted');
-				console.log('Sending raw output: ' + raw);
 				pilight.sendRaw(raw);
 			})
 		})
 	}
 	else {
-		console.log('Sending raw output: ' + raw);
 		pilight.sendRaw(raw);
 	}
 }
