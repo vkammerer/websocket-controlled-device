@@ -1,0 +1,29 @@
+/*
+	Example configuration file for websocket-controlled-device.
+	Comments should be removed and file should be saved as "config.json".
+*/
+
+{
+
+	// type of device the application runs on.
+	"type": "rpi",
+	/*
+		the application can run as client or as server in the websocket connection.
+		One of the two following settings must therefore be removed.
+	*/
+	"client": {
+		// Id of the device as registered on the remote server app
+		"id": "1234567890",
+		// Remote server
+		"host": "192.168.1.77",
+		// Remote server port
+		"port": "9000"
+	}
+	"server": {
+		// Password of the device as defined on the remote server app
+		"pwd": "12345",
+		// Server port
+		"port": 8080
+	}
+
+};

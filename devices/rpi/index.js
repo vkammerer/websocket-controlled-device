@@ -1,14 +1,11 @@
 var _ = require('underscore'),
 	Gpio = require('onoff').Gpio,
-	pilight = require('../../node-pilight/pilight');
-
+	pilight = require('../../../node-pilight/pilight');
 
 var vkGpios = [],
 		thisSocketAudience;
 
-var pilightSettings = {
-	'gpio-sender' : pilight.getSender()
-};
+var pilightSettings = pilight.getSettings();
 
 pilight.serviceStart();
 
@@ -35,9 +32,9 @@ function gpioOutput(data){
 		}
 	}
 	else {
-    vkGpios[data.pin] = new Gpio(parseInt(data.pin), 'out');
+		vkGpios[data.pin] = new Gpio(parseInt(data.pin), 'out');
 	}
-  vkGpios[data.pin].writeSync(parseInt(data.value));
+	vkGpios[data.pin].writeSync(parseInt(data.value));
 }
 
 /*
@@ -50,7 +47,7 @@ function initGpioInput(data){
 		}
 	}
 	else {
-	  vkGpios[data.pin] = new Gpio(data.pin, 'in', 'both', {persistentWatch: true});
+		vkGpios[data.pin] = new Gpio(data.pin, 'in', 'both', {persistentWatch: true});
 	}
 	vkGpios[data.pin].watch(function(err, value) {
 		var inputData = {
