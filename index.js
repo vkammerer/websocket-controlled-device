@@ -20,9 +20,6 @@ if (config.client) {
 		'query':'rpi=' + config.client.id
 	});
 	deviceController.socketEvents(socket, socket);
-/*	socket.on('connect', function (data){
-	})
-*/
 }
 else if (config.server) {
 	var server = http.createServer(function (req, res) {
@@ -43,9 +40,7 @@ else if (config.server) {
 	  	else callback(null, true);
 	  });
 	});
-	io.sockets.on('connection', function (socket) {
-		deviceController.socketEvents(socket, io.sockets);
-	})
+	deviceController.socketEvents(socket, io.sockets);
 }
 var exit = function() {
 	deviceController.onExit();

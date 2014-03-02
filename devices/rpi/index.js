@@ -5,13 +5,12 @@ var _ = require('underscore'),
 var vkGpios = [],
 		thisSocketAudience;
 
-var pilightSettings = pilight.getSettings();
-
 pilight.serviceStart();
 
 exports.socketEvents = function(socket, socketAudience){
 	thisSocketAudience = socketAudience;
 	socket.on('connect', onConnect);
+	socket.on('connection', onConnect);
 	socket.on('disconnect', onDisconnect);
 	socket.on('gpioOutput', gpioOutput);
 	socket.on('initGpioInput', initGpioInput);
@@ -62,22 +61,19 @@ function initGpioInput(data){
 	Turns on or off power switch with pilight
 */
 function rfcdOutput(data){
-
 	var raw = data.status == 'on' ? data.rfcd.oncode : data.rfcd.offcode;
 
-	if (pilightSettings['gpio-sender'] !== data.rfcd.gpio.pin.toString()) {
-		console.log('Changing pin for "gpio-sender" from: ' + pilightSettings['gpio-sender']
-			+ ' to: ' + data.rfcd.gpio.pin.toString());
-		pilight.setSender(data.rfcd.gpio.pin).then(function(){			
-			pilightSettings['gpio-sender'] = data.rfcd.gpio.pin.toString();
-			pilight.serviceRestart().then(function(){
-				pilight.sendRaw(raw);
-			})
-		})
+	var rawContent = {
+		message: 'send',
+		code: {
+			protocol:  [ 'raw' ],
+			code: raw
+		}
 	}
-	else {
-		pilight.sendRaw(raw);
-	}
+
+	pilight.send(rawContent).then(function(){
+		thisSocketAudience.emit('rfcdOutput', data);
+	});
 }
 
 /*
